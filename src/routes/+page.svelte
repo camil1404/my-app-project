@@ -8,6 +8,7 @@
     
     <!-- Link to navigate to the map page -->
     <a href="/map">Go to Map</a>
+    <a href="/data">Go to datavis</a>
 </main>
 
 <style>

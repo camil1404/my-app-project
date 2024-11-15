@@ -21,6 +21,7 @@
 
     let lineElements = []; // Store lines for later updates
     let currentTransform = d3.zoomIdentity; // Store the current zoom/pan transform
+    //fetching data
      onMount(async () => {
         console.log("Fetching flight data...");
 
@@ -111,52 +112,67 @@
             }
         });
     }
+    
 
     // Function to draw flight paths
-    function drawSimplePaths(svg) {
+function drawSimplePaths(svg) {
     if (!airportData || !flightData) return;
-
+//punt waar de lijnen vandaan moeten komen 
     const schipholProjected = projection(schipholCoords);
 
+    // Step 1: Aggregate flights by destination IATA
+    const destinationCounts = {};
     flightData.forEach(flight => {
         const destinations = flight.route?.destinations || [];
         if (destinations.length > 0) {
             const destinationIATA = destinations[0];
-            const destinationAirport = airportData.features.find(airport => airport.properties.iata === destinationIATA);
+            if (!destinationCounts[destinationIATA]) {
+                destinationCounts[destinationIATA] = 0;
+            }
+            destinationCounts[destinationIATA]++;
+        }
+    });
 
-            if (destinationAirport) {
-                const destinationCoords = destinationAirport.geometry.coordinates;
-                const destinationProjected = projection(destinationCoords);
+    // Step 2: Define a scale for line width
+    const lineWidthScale = d3.scaleLinear()
+        .domain([1, d3.max(Object.values(destinationCounts))]) // From 1 flight to the max count
+        .range([0.5, 5]); // Adjust range for line thickness as needed
 
-                if (schipholProjected && destinationProjected) {
-                    // Create the line starting at Schiphol for both ends
-                    const line = svg.append("line")
-                        .attr("x1", schipholProjected[0])
-                        .attr("y1", schipholProjected[1])
-                        .attr("x2", schipholProjected[0]) // Start x2 and y2 at Schiphol
-                        .attr("y2", schipholProjected[1]) // Start x2 and y2 at Schiphol
-                        .attr("stroke", "orange")
-                        .attr("stroke-width", 0.5)
-                        .attr("opacity", 0.7);
+    // Step 3: Draw lines
+    Object.entries(destinationCounts).forEach(([destinationIATA, count]) => {
+        const destinationAirport = airportData.features.find(airport => airport.properties.iata === destinationIATA);
 
-                    // Animate line drawing to the destination
-                    line.transition()
-                        .duration(2000) // Adjust duration as needed
-                        .ease(d3.easeLinear) // Linear easing for smooth growth effect
-                        .attr("x2", destinationProjected[0]) // Animate to destination x
-                        .attr("y2", destinationProjected[1]); // Animate to destination y
+        if (destinationAirport) {
+            const destinationCoords = destinationAirport.geometry.coordinates;
+            const destinationProjected = projection(destinationCoords);
 
-                    lineElements.push({
-                        line,
-                        schiphol: schipholProjected,
-                        destination: destinationProjected
-                    });
-                }
+            if (schipholProjected && destinationProjected) {
+                const line = svg.append("line")
+                    .attr("x1", schipholProjected[0])
+                    .attr("y1", schipholProjected[1])
+                    .attr("x2", schipholProjected[0]) // Start x2 and y2 at Schiphol
+                    .attr("y2", schipholProjected[1]) // Start x2 and y2 at Schiphol
+                    .attr("stroke", "orange")
+                    .attr("stroke-width", lineWidthScale(count)) // Use the scaled width
+                    .attr("opacity", 0.7);
+
+                // Animate line drawing
+                line.transition()
+                    .duration(2000)
+                    .ease(d3.easeLinear)
+                    .attr("x2", destinationProjected[0])
+                    .attr("y2", destinationProjected[1]);
+
+                // Store line info for updates
+                lineElements.push({
+                    line,
+                    schiphol: schipholProjected,
+                    destination: destinationProjected
+                });
             }
         }
     });
 }
-
 
     // Update line positions based on the current zoom and pan
 function updateLines() {
@@ -220,6 +236,10 @@ function updateLines() {
             <p class="airport-count">Total Flights: {destinationCounts[hoveredCountry] || 0}</p>
         </div>
     {/if}
+    <div class="flight-count">
+    Total Flights: {flightData.length}
+</div>
+
 </main>
 
 <style>
@@ -280,4 +300,16 @@ function updateLines() {
         color: #555;
         margin-bottom: 8px;
     }
+    .flight-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+}
 </style>

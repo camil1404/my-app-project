@@ -2288,6 +2288,28 @@
     },
     {
       "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [4.763385, 52.30907] },
+      "properties": {
+        "name": "Amsterdam Schiphol Airport",
+        "name_en": "Amsterdam Airport Schiphol",
+        "name_fr": "Aéroport d'Amsterdam-Schiphol",
+        "iata": "AMS",
+        "icao": "EHAM",
+        "wikipedia": "nl:Luchthaven Schiphol",
+        "wikidata": "Q8663",
+        "website": "https://www.schiphol.nl/",
+        "phone": "+31 20 794 0800",
+        "operator": "Royal Schiphol Group",
+        "description": "Amsterdam Schiphol Airport, one of the largest and busiest airports in Europe.",
+        "id": "https://www.openstreetmap.org/edit?node=62422",
+        "source": "OpenStreetMap",
+        "other_tags": "{\"aerodrome\": \"international\", \"aeroway\": \"aerodrome\", \"contact:facebook\": \"https://www.facebook.com/Schiphol\", \"contact:instagram\": \"https://www.instagram.com/schiphol\", \"contact:linkedin\": \"https://www.linkedin.com/company/schiphol\", \"contact:youtube\": \"https://www.youtube.com/user/schiphol\", \"name:zh\": \"阿姆斯特丹史基浦机场\", \"name:zh-Hans\": \"阿姆斯特丹史基浦机场\", \"name:zh-Hant\": \"阿姆斯特丹史基浦機場\", \"old_name\": \"Schiphol\", \"ref\": \"AMS\", \"website:en\": \"https://www.schiphol.nl/en/\", \"website:nl\": \"https://www.schiphol.nl/\"}",
+        "country": "Netherlands",
+        "country_code": "NL"
+      }
+    },
+    {
+      "type": "Feature",
       "geometry": {
         "type": "Point",
         "coordinates": [-172.0079485, -13.8307683]

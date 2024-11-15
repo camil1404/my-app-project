@@ -1,14 +1,15 @@
 <script>
+    import "../../src/app.css"
     // You can add any necessary homepage logic here
 </script>
 
 <main>
     <h1>Welcome to my project</h1>
-    <p>This is the homepage. Click the link below to view the map.</p>
+    <p>Lets go exploring</p>
     
     <!-- Link to navigate to the map page -->
     <a href="/map">Go to Map</a>
-    <a href="/data">Go to datavis</a>
+    <a href="/data">Raw Data</a>
 </main>
 
 <style>
@@ -32,5 +33,15 @@
 
     a:hover {
         background-color: #005ea2;
+    }
+    h1{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    }
+    p{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    a{
+        font-family: Arial, Helvetica, sans-serif;
     }
 </style>

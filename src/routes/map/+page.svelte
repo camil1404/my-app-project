@@ -191,6 +191,7 @@ function updateLines() {
 </script>
 
 <main bind:clientWidth={width} bind:clientHeight={height}>
+
     {#if geoData}
         <svg width={width} height={height}>
             <rect width="100%" height="100%" fill="#121212." />
@@ -239,6 +240,19 @@ function updateLines() {
     <div class="flight-count">
     Total Flights: {flightData.length}
 </div>
+<h1>Schiphol Flight Data</h1>
+<h2>© Camil Gilliad</h2>
+<div class="legend">
+  <div class="legend-item">
+    <span class="circle purple"></span> Airports
+  </div>
+  <div class="legend-item">
+    <span class="line orange"></span> Route
+  </div>
+  <div class="legend-item">
+    <span class="line orange thick"></span> Amount of flights
+  </div>
+</div>
 
 </main>
 
@@ -250,8 +264,7 @@ function updateLines() {
         overflow: hidden;
         position: relative;
     }
-
-    .country-path:hover {
+  .country-path:hover {
         fill: orange;
     }
 
@@ -311,5 +324,73 @@ function updateLines() {
     font-size: 14px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for better visibility */
+}
+h1{
+    position: fixed;
+    z-index: 2000;
+    color: white;
+  top: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  margin-left: 2rem;
+}
+h2{
+    position: fixed;
+    z-index: 2000;
+    color: white;
+  bottom: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+right: 2rem;
+}
+/*legenda styling*/
+.legend {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background-color: #121212;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 1px solid black;
+}
+
+.purple {
+  background-color: #bb86fc;
+  
+}
+
+.line {
+  width: 20px;
+  height: 4px;
+  margin-right: 8px;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.thick {
+  height: 8px;
 }
 </style>
